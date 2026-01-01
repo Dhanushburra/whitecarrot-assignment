@@ -91,12 +91,14 @@ postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/
    - **Python Version**: `3.11.9` (you can set this manually in Render settings, or use `runtime.txt` file)
    - **Build Command**: 
      ```bash
-     pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
+     pip install -r requirements.txt && python manage.py collectstatic --noinput
      ```
    - **Start Command**: 
      ```bash
-     gunicorn careers_builder.wsgi:application --bind 0.0.0.0:$PORT
+     bash start.sh
      ```
+   
+   **Note**: Migrations run automatically on startup (via `start.sh` script), not during build. This avoids database connection issues during the build phase.
 
 **Important - Python Version Issue**: 
 
@@ -150,24 +152,26 @@ DATABASE_SSLMODE=require
 
 ### 2.5 Database Migrations
 
-**✅ Migrations run automatically during build!**
+**✅ Migrations run automatically on startup!**
 
-The build command includes `python manage.py migrate --noinput`, so migrations will run automatically on every deployment.
+Migrations are handled by the `start.sh` script, which runs `python manage.py migrate --noinput` before starting the server. This ensures:
+- Build completes successfully (no database connection needed during build)
+- Migrations run automatically on every deployment when the service starts
+- Works on free tier (no Shell access required)
 
 **Optional: Create Sample Data**
 
-If you want to create sample data after first deployment:
+If you want to create sample data, you'll need to use Render Shell (premium feature) or create it through the application UI after deployment.
 
-1. Go to your web service in Render
-2. Click **"Shell"** tab
-3. Run:
-   ```bash
-   python manage.py create_sample_data
-   ```
-   This creates:
-   - Demo user: `demo` / `demo123`
-   - Sample company: "Tech Innovations Inc."
-   - Sample jobs and content sections
+The sample data command would be:
+```bash
+python manage.py create_sample_data
+```
+
+This creates:
+- Demo user: `demo` / `demo123`
+- Sample company: "Tech Innovations Inc."
+- Sample jobs and content sections
 
 ---
 
@@ -246,7 +250,7 @@ To populate your production database with sample data:
    - Sample company: "Tech Innovations Inc."
    - Sample jobs and content sections
 
-**Note**: Migrations run automatically during deployment (included in build command), so you don't need to run them manually.
+**Note**: Migrations run automatically on startup (via `start.sh` script), so you don't need to run them manually.
 
 ---
 
