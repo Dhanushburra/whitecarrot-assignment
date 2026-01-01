@@ -34,13 +34,12 @@ Use this checklist to ensure everything is set up correctly before deploying.
 ### Step 2: Render.com (Backend)
 - [ ] Account created at https://render.com
 - [ ] GitHub account connected
-- [ ] PostgreSQL database created
-- [ ] Database Internal URL copied
+- [ ] Supabase connection string prepared (you already have Supabase set up)
 - [ ] Web service created
 - [ ] Environment variables set:
   - [ ] `SECRET_KEY` (generated)
   - [ ] `DEBUG=False`
-  - [ ] `DATABASE_URL` (from PostgreSQL service)
+  - [ ] `DATABASE_URL` (your Supabase connection string)
   - [ ] `ALLOWED_HOSTS` (your Render URL)
   - [ ] `CORS_ALLOWED_ORIGINS` (will update after frontend deploy)
   - [ ] `DATABASE_SSLMODE=require`
@@ -109,7 +108,7 @@ https://________________.vercel.app/accenture/careers
 |-------|----------|
 | Build fails | Check build logs, verify dependencies |
 | CORS errors | Update `CORS_ALLOWED_ORIGINS` in Render |
-| Database errors | Verify `DATABASE_URL` is Internal URL |
+| Database errors | Verify `DATABASE_URL` is your Supabase connection string with password |
 | 404 on routes | Check `vercel.json` rewrites |
 | API calls fail | Verify `VITE_API_URL` in Vercel |
 | Static files 404 | Ensure `collectstatic` in build command |
