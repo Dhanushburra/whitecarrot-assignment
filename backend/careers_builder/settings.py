@@ -172,6 +172,9 @@ CORS_ALLOWED_ORIGINS = env.list(
     ]
 )
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://whitecarrot-assignment-three.vercel.app",
+]
 
 CORS_ALLOW_CREDENTIALS = True
 
