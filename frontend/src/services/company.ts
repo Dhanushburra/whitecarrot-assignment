@@ -44,8 +44,10 @@ export const companyService = {
       const value = data[key as keyof Company];
       if (value !== undefined && value !== null) {
         if (key === 'logo' || key === 'banner') {
-          if (value instanceof File) {
-            formData.append(key, value);
+          // Check if value is a File object
+          const fileValue = value as unknown;
+          if (fileValue instanceof File) {
+            formData.append(key, fileValue);
           }
         } else {
           formData.append(key, String(value));

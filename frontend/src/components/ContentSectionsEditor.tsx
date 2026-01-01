@@ -95,7 +95,7 @@ function SortableSection({
   );
 }
 
-const ContentSectionsEditor = ({ company }: ContentSectionsEditorProps) => {
+const ContentSectionsEditor = ({}: ContentSectionsEditorProps) => {
   const [showModal, setShowModal] = useState(false);
   const [editingSection, setEditingSection] = useState<ContentSection | null>(
     null

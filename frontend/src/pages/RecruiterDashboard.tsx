@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../contexts/AuthContext';
-import { companyService, Company } from '../services/company';
-import { contentService, ContentSection } from '../services/content';
-import { jobService, Job } from '../services/jobs';
+import { companyService } from '../services/company';
 import BrandThemeEditor from '../components/BrandThemeEditor';
 import ContentSectionsEditor from '../components/ContentSectionsEditor';
 import JobsEditor from '../components/JobsEditor';
@@ -13,8 +11,7 @@ import { Copy, Eye, LogOut } from 'lucide-react';
 const RecruiterDashboard = () => {
   const { companySlug } = useParams<{ companySlug: string }>();
   const navigate = useNavigate();
-  const { logout, user } = useAuth();
-  const queryClient = useQueryClient();
+  const { logout } = useAuth();
   const [activeTab, setActiveTab] = useState<'brand' | 'content' | 'jobs'>('brand');
 
   const { data: company, isLoading: companyLoading } = useQuery({

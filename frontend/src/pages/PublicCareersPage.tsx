@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { companyService, CompanyPublic } from '../services/company';
-import { contentService, ContentSectionPublic } from '../services/content';
-import { jobService, JobPublic, JobFilters } from '../services/jobs';
+import { companyService } from '../services/company';
+import { contentService } from '../services/content';
+import { jobService, JobFilters } from '../services/jobs';
 import { Search, MapPin, Briefcase, Filter } from 'lucide-react';
 
 const PublicCareersPage = () => {
