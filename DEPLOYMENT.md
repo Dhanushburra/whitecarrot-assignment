@@ -91,7 +91,7 @@ postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/
    - **Python Version**: `3.11.9` (you can set this manually in Render settings, or use `runtime.txt` file)
    - **Build Command**: 
      ```bash
-     pip install -r requirements.txt && python manage.py collectstatic --noinput
+     pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
      ```
    - **Start Command**: 
      ```bash
@@ -148,20 +148,26 @@ DATABASE_SSLMODE=require
 3. Wait for deployment to complete (usually 5-10 minutes)
 4. Your backend will be available at: `https://careers-builder-api.onrender.com`
 
-### 2.5 Run Database Migrations
+### 2.5 Database Migrations
 
-After first deployment, you need to run migrations:
+**✅ Migrations run automatically during build!**
+
+The build command includes `python manage.py migrate --noinput`, so migrations will run automatically on every deployment.
+
+**Optional: Create Sample Data**
+
+If you want to create sample data after first deployment:
 
 1. Go to your web service in Render
 2. Click **"Shell"** tab
 3. Run:
    ```bash
-   python manage.py migrate
-   ```
-4. (Optional) Create sample data:
-   ```bash
    python manage.py create_sample_data
    ```
+   This creates:
+   - Demo user: `demo` / `demo123`
+   - Sample company: "Tech Innovations Inc."
+   - Sample jobs and content sections
 
 ---
 
@@ -239,6 +245,8 @@ To populate your production database with sample data:
    - Demo user: `demo` / `demo123`
    - Sample company: "Tech Innovations Inc."
    - Sample jobs and content sections
+
+**Note**: Migrations run automatically during deployment (included in build command), so you don't need to run them manually.
 
 ---
 

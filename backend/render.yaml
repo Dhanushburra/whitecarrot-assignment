@@ -2,7 +2,7 @@ services:
   - type: web
     name: careers-builder-api
     env: python
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    buildCommand: pip install -r requirements.txt && python manage.py migrate --noinput && python manage.py collectstatic --noinput
     startCommand: gunicorn careers_builder.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: SECRET_KEY
