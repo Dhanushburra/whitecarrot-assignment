@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: careers-builder-api
+    env: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: gunicorn careers_builder.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: DATABASE_URL
+        fromDatabase:
+          name: careers-builder-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: careers-builder-api.onrender.com
+      - key: DATABASE_SSLMODE
+        value: require
+
+databases:
+  - name: careers-builder-db
+    plan: free
+    databaseName: careers_builder
+    user: careers_builder_user
+
