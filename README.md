@@ -2,10 +2,6 @@
 
 A full-stack application that helps recruiters create branded careers pages for their companies, and allows candidates to browse open roles.
 
-## 🚀 Quick Start
-
-**For deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)**
-
 ## Tech Stack
 
 - **Backend**: Django 4.2 + Django REST Framework
@@ -33,7 +29,7 @@ A full-stack application that helps recruiters create branded careers pages for 
 
 ## Project Structure
 
-```
+
 whitecarrot-assignment/
 ├── backend/              # Django backend
 │   ├── accounts/        # Authentication
@@ -48,7 +44,7 @@ whitecarrot-assignment/
 │       ├── services/    # API services
 │       └── contexts/    # React contexts
 └── DEPLOYMENT.md       # Complete deployment guide
-```
+
 
 ## Local Development
 
@@ -95,6 +91,6 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions to:
 - `GET /api/jobs/public/` - Get public jobs (with filters)
 - `GET /api/content/{company_id}/public/` - Get public content sections
 
-## License
+## Demo link: https://drive.google.com/file/d/1CO_zYL3fABWpBfeeUihBI9kq80C8EXtm/view?usp=sharing
 
-This project is part of a coding assignment.
+## Deployement: https://whitecarrot-assignment-three.vercel.app/
