@@ -62,11 +62,16 @@ postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/
      bash start.sh
      ```
 
-### Step 3: Python Version (Automatic)
+### Step 3: Python Version
 
-✅ **Good News**: The `runtime.txt` file in your `backend/` folder already specifies `python-3.11.9`, so Render will automatically use Python 3.11.9.
+✅ **The `runtime.txt` file specifies `python-3.11.9`**, which Render should use automatically.
 
-**You don't need to set it manually** - just proceed to Step 4.
+**If you see Python 3.13 in build logs**, add this environment variable in Step 4:
+```
+PYTHON_VERSION=3.11.9
+```
+
+This will force Render to use Python 3.11.9.
 
 ### Step 4: Configure Environment Variables
 
@@ -79,9 +84,12 @@ DATABASE_URL=postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supa
 ALLOWED_HOSTS=whitecarrot-assignment-tama.onrender.com
 DATABASE_SSLMODE=require
 CORS_ALLOWED_ORIGINS=https://whitecarrot-assignment-three.vercel.app
+PYTHON_VERSION=3.11.9
 ```
 
 **Copy these exactly as shown above** - all values are already set correctly for your deployment.
+
+**Note**: `PYTHON_VERSION=3.11.9` ensures Render uses Python 3.11.9 instead of default 3.13.
 
 ### Step 5: Deploy
 
@@ -180,17 +188,29 @@ The CORS and API URLs are already set correctly in the environment variables abo
 
 ### Backend Issues
 
-**Problem: Build fails with Python 3.13**
-- **Fix**: Set Python version to `3.11.9` in Render Settings
+**Problem: Using Python 3.13 instead of 3.11.9**
+- **Check**: Build logs should show "Installing Python version 3.11.9"
+- **Fix**: Ensure `runtime.txt` exists in `backend/` folder with `python-3.11.9`
+- **If still using 3.13**: Go to Render Settings → Environment → Add `PYTHON_VERSION=3.11.9`
+
+**Problem: Database connection "Network is unreachable"**
+- **Cause**: Supabase might be blocking connections or network issue
+- **Fix 1**: Check Supabase Dashboard → Settings → Database → Connection Pooling
+  - Try using the **Connection Pooling** URL instead of direct connection
+  - Format: `postgresql://postgres.xxx:[PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres`
+- **Fix 2**: Check if Supabase requires IP whitelisting
+  - Go to Supabase Dashboard → Settings → Database
+  - Check if there are IP restrictions
+  - Render's IPs are dynamic, so you may need to allow all IPs temporarily
+- **Fix 3**: Verify DATABASE_URL format is correct:
+  ```
+  postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
+  ```
 
 **Problem: 500 errors on login/register**
 - **Check**: Render logs for migration output
 - **Fix**: If migrations didn't run, check `start.sh` is executing
-
-**Problem: Database connection error**
-- **Check**: `DATABASE_URL` is correct in Render Environment
-- **Verify**: Password is correct: `dhanushBurra!123`
-- **Ensure**: `DATABASE_SSLMODE=require` is set
+- **Note**: App will start even if migrations fail initially (will retry)
 
 **Problem: CORS errors**
 - **Fix**: Verify `CORS_ALLOWED_ORIGINS` in Render is set to: `https://whitecarrot-assignment-three.vercel.app`
