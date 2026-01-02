@@ -46,12 +46,11 @@ postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/
 3. Configure the service:
 
    **Basic Settings:**
-   - **Name**: `careers-builder-api` (or any name you prefer)
+   - **Name**: `whitecarrot-assignment-tama` (or keep existing if already created)
    - **Region**: Choose closest to you
    - **Branch**: `main`
    - **Root Directory**: `backend`
-   - **Environment**: `Python 3`
-   - **Python Version**: `3.11.9` ⚠️ **IMPORTANT: Set this manually in Settings after creation**
+   - **Environment**: `Python 3` (this is the only option - no version field)
 
    **Build & Deploy:**
    - **Build Command**: 
@@ -63,39 +62,32 @@ postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/
      bash start.sh
      ```
 
-### Step 3: Set Python Version
+### Step 3: Python Version (Automatic)
 
-⚠️ **CRITICAL**: Render defaults to Python 3.13, which has compatibility issues.
+✅ **Good News**: The `runtime.txt` file in your `backend/` folder already specifies `python-3.11.9`, so Render will automatically use Python 3.11.9.
 
-1. After creating the service, go to **Settings** tab
-2. Scroll to **Python Version**
-3. Set to: `3.11.9`
-4. Save (will trigger redeploy)
+**You don't need to set it manually** - just proceed to Step 4.
 
 ### Step 4: Configure Environment Variables
 
-Go to **Environment** tab and add these variables:
+Go to **Environment** tab and add these variables (copy and paste exactly):
 
 ```
 SECRET_KEY=PzVLXDlG_dyDmAv1Lwp36um589ZF23AA3d4475Qxuh-f17VV2l8DX7gCfqv81kaOu6k
 DEBUG=False
 DATABASE_URL=postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
-ALLOWED_HOSTS=your-service-name.onrender.com
+ALLOWED_HOSTS=whitecarrot-assignment-tama.onrender.com
 DATABASE_SSLMODE=require
-CORS_ALLOWED_ORIGINS=https://your-frontend-url.vercel.app
+CORS_ALLOWED_ORIGINS=https://whitecarrot-assignment-three.vercel.app
 ```
 
-**Important Notes:**
-- **SECRET_KEY**: This is for Django (not the database). Use the key above, or generate a new one using: `python3 -c "import secrets; print(secrets.token_urlsafe(50))"`
-- **DATABASE_URL**: Contains the database password `dhanushBurra!123` - this is your database password
-- **ALLOWED_HOSTS**: Replace with your actual Render service URL (e.g., `careers-builder-api.onrender.com`)
-- **CORS_ALLOWED_ORIGINS**: You'll update this after deploying frontend (for now, use a placeholder)
+**Copy these exactly as shown above** - all values are already set correctly for your deployment.
 
 ### Step 5: Deploy
 
-1. Click **"Create Web Service"**
+1. Click **"Create Web Service"** (or **"Save Changes"** if updating existing service)
 2. Wait for deployment (5-10 minutes)
-3. Your backend URL will be: `https://your-service-name.onrender.com`
+3. Your backend URL will be: `https://whitecarrot-assignment-tama.onrender.com`
 
 ### Step 6: Verify Backend
 
@@ -134,38 +126,31 @@ CORS_ALLOWED_ORIGINS=https://your-frontend-url.vercel.app
 
 ### Step 3: Add Environment Variables
 
-Click **"Environment Variables"** and add:
+Click **"Environment Variables"** and add (copy exactly):
 
 ```
-VITE_API_URL=https://your-backend-url.onrender.com/api
+VITE_API_URL=https://whitecarrot-assignment-tama.onrender.com/api
 ```
 
-**Replace `your-backend-url.onrender.com` with your actual Render backend URL**
+**Copy this exactly as shown** - the backend URL is already set correctly.
 
 ### Step 4: Deploy
 
 1. Click **"Deploy"**
 2. Wait for deployment (2-3 minutes)
-3. Your frontend URL will be: `https://your-project-name.vercel.app`
+3. Your frontend URL will be: `https://whitecarrot-assignment-three.vercel.app`
 
 ---
 
 ## 🔗 Part 3: Connect Frontend and Backend
 
-### Step 1: Update Backend CORS
+✅ **Already Configured!** 
 
-1. Go to Render Dashboard → Your Service → **Environment** tab
-2. Update `CORS_ALLOWED_ORIGINS`:
-   ```
-   CORS_ALLOWED_ORIGINS=https://your-frontend-url.vercel.app
-   ```
-3. Click **Save Changes** (will auto-redeploy)
+The CORS and API URLs are already set correctly in the environment variables above:
+- Backend CORS: `https://whitecarrot-assignment-three.vercel.app`
+- Frontend API URL: `https://whitecarrot-assignment-tama.onrender.com/api`
 
-### Step 2: Update Frontend API URL (if needed)
-
-1. Go to Vercel Dashboard → Your Project → **Settings** → **Environment Variables**
-2. Verify `VITE_API_URL` is correct
-3. If you changed it, redeploy the frontend
+**No additional steps needed** - they're already connected!
 
 ---
 
@@ -173,15 +158,15 @@ VITE_API_URL=https://your-backend-url.onrender.com/api
 
 ### Test Backend
 
-1. Visit: `https://your-backend-url.onrender.com/api/`
+1. Visit: `https://whitecarrot-assignment-tama.onrender.com/api/`
 2. Should show API root or JSON response
 
 ### Test Frontend
 
-1. Visit: `https://your-frontend-url.vercel.app`
+1. Visit: `https://whitecarrot-assignment-three.vercel.app`
 2. Try to register a new account
 3. Check browser DevTools → Network tab:
-   - Request should go to: `https://your-backend-url.onrender.com/api/auth/register/`
+   - Request should go to: `https://whitecarrot-assignment-tama.onrender.com/api/auth/register/`
    - Status should be `201 Created` (not `500`)
 
 ### Test Login
@@ -208,14 +193,13 @@ VITE_API_URL=https://your-backend-url.onrender.com/api
 - **Ensure**: `DATABASE_SSLMODE=require` is set
 
 **Problem: CORS errors**
-- **Fix**: Update `CORS_ALLOWED_ORIGINS` in Render with your Vercel URL (include `https://`)
+- **Fix**: Verify `CORS_ALLOWED_ORIGINS` in Render is set to: `https://whitecarrot-assignment-three.vercel.app`
 
 ### Frontend Issues
 
 **Problem: API calls failing**
-- **Check**: `VITE_API_URL` in Vercel Environment Variables
+- **Check**: `VITE_API_URL` in Vercel should be: `https://whitecarrot-assignment-tama.onrender.com/api`
 - **Verify**: URL ends with `/api` (not `/api/`)
-- **Ensure**: Backend URL is correct
 
 **Problem: 404 errors on routes**
 - **Fix**: `vercel.json` should have rewrites (already configured)
@@ -224,25 +208,21 @@ VITE_API_URL=https://your-backend-url.onrender.com/api
 
 ## 📝 Environment Variables Summary
 
-### Backend (Render)
+### Backend (Render) - Copy These Exactly
 
 ```
 SECRET_KEY=PzVLXDlG_dyDmAv1Lwp36um589ZF23AA3d4475Qxuh-f17VV2l8DX7gCfqv81kaOu6k
 DEBUG=False
 DATABASE_URL=postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
-ALLOWED_HOSTS=your-service-name.onrender.com
+ALLOWED_HOSTS=whitecarrot-assignment-tama.onrender.com
 DATABASE_SSLMODE=require
-CORS_ALLOWED_ORIGINS=https://your-frontend-url.vercel.app
+CORS_ALLOWED_ORIGINS=https://whitecarrot-assignment-three.vercel.app
 ```
 
-**Note**: 
-- `SECRET_KEY` is for Django (use the key above)
-- Database password is `dhanushBurra!123` (already in DATABASE_URL)
-
-### Frontend (Vercel)
+### Frontend (Vercel) - Copy This Exactly
 
 ```
-VITE_API_URL=https://your-backend-url.onrender.com/api
+VITE_API_URL=https://whitecarrot-assignment-tama.onrender.com/api
 ```
 
 ---
@@ -284,8 +264,8 @@ If you encounter issues:
 
 Once everything is working:
 
-- **Frontend URL**: `https://your-frontend-url.vercel.app`
-- **Backend URL**: `https://your-backend-url.onrender.com/api`
-- **Public Careers Page**: `https://your-frontend-url.vercel.app/{company-slug}/careers`
+- **Frontend URL**: `https://whitecarrot-assignment-three.vercel.app`
+- **Backend URL**: `https://whitecarrot-assignment-tama.onrender.com/api`
+- **Public Careers Page**: `https://whitecarrot-assignment-three.vercel.app/{company-slug}/careers`
 
-Submit your frontend URL as the production live link!
+**Submit this as your production live link**: `https://whitecarrot-assignment-three.vercel.app`
