@@ -201,27 +201,34 @@ The CORS and API URLs are already set correctly in the environment variables abo
 - **Note**: `runtime.txt` alone may not work - you MUST add `PYTHON_VERSION=3.11.9` as environment variable
 
 **Problem: Database connection "Network is unreachable"**
-- **Most Common Cause**: Python 3.13 compatibility issues with psycopg2-binary
-- **Fix 1**: Ensure Python 3.11.9 is being used
-  1. Go to Render Dashboard → Your Service → **Environment** tab
-  2. Add: `PYTHON_VERSION=3.11.9` (if not already added)
-  3. Save and redeploy
-  4. Check build logs - should show "Installing Python version 3.11.9" (NOT 3.13)
-- **Fix 2**: Use Supabase Connection Pooling (RECOMMENDED for Render)
-  1. Go to Supabase Dashboard → Settings → Database
-  2. Scroll to "Connection Pooling" section
-  3. Copy the **Session mode** connection string
-  4. Replace `DATABASE_URL` in Render Environment with the pooling URL
-  5. Format looks like: `postgresql://postgres.xxx:[PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres`
-  6. Keep `DATABASE_SSLMODE=require` in environment variables
-- **Fix 3**: Verify DATABASE_URL format is exactly:
-  ```
-  postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
-  ```
-- **Note**: 
-  - IP restrictions are NOT the issue (your Supabase allows all IPs)
-  - The app will start even if migrations fail - you can test API endpoints, but database operations won't work until connection is fixed
-  - Python 3.13 + psycopg2-binary = connection failures. Python 3.11.9 fixes this.
+- **Status**: ✅ Python 3.11 is now working (good!)
+- **Issue**: Render's network cannot reach Supabase's direct database connection
+- **Solution**: Use Supabase Connection Pooling (REQUIRED for Render)
+
+**Steps to Fix:**
+
+1. **Get Connection Pooling URL from Supabase:**
+   - Go to Supabase Dashboard → Settings → Database
+   - Scroll to "Connection Pooling" section
+   - Find "Connection string" under "Session mode"
+   - Copy the connection string (it will look different from direct connection)
+
+2. **Update DATABASE_URL in Render:**
+   - Go to Render Dashboard → Your Service → **Environment** tab
+   - Find `DATABASE_URL` variable
+   - Replace it with the Connection Pooling URL from Supabase
+   - Format example: `postgresql://postgres.xxx:[PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres`
+   - Keep `DATABASE_SSLMODE=require` (still needed)
+
+3. **Save and Redeploy:**
+   - Click "Save Changes"
+   - Render will automatically redeploy
+   - Check logs - migrations should now succeed
+
+**Why Connection Pooling?**
+- Direct Supabase connections (port 5432) are often blocked by cloud providers
+- Connection Pooling (port 6543) is designed for serverless/cloud deployments
+- Render specifically works better with connection pooling URLs
 
 **Problem: 500 errors on login/register**
 - **Cause**: Database connection failing or migrations didn't run
