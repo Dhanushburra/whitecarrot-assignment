@@ -13,21 +13,25 @@ This guide will help you deploy the Careers Page Builder application to producti
 
 ## 🗄️ Database Information
 
-Your Supabase database credentials:
+**⚠️ IMPORTANT: Render is IPv4-only, but Supabase Direct Connection uses IPv6**
 
+You MUST use **Session Pooler** (not direct connection) for Render deployments.
+
+**Session Pooler Connection String (USE THIS):**
 ```
-Host: db.acycjxupzymbgwabxsad.supabase.co
-Port: 5432
-Database: postgres
-User: postgres
-Password: dhanushBurra!123
-SSL Mode: require
+postgresql://postgres.acycjxupzymbgwabxsad:dhanushBurra!123@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
 ```
 
-**Connection String:**
+**Direct Connection (DO NOT USE for Render - IPv6 only):**
 ```
 postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
 ```
+
+**Why Session Pooler?**
+- Render is IPv4-only (cannot connect to IPv6)
+- Supabase Direct Connection uses IPv6 (incompatible with Render)
+- Session Pooler supports IPv4 (works with Render)
+- Supabase specifically lists Render as an IPv4-only platform
 
 ---
 
@@ -82,7 +86,7 @@ Go to **Environment** tab and add these variables (copy and paste exactly):
 ```
 SECRET_KEY=PzVLXDlG_dyDmAv1Lwp36um589ZF23AA3d4475Qxuh-f17VV2l8DX7gCfqv81kaOu6k
 DEBUG=False
-DATABASE_URL=postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres.acycjxupzymbgwabxsad:dhanushBurra!123@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
 ALLOWED_HOSTS=whitecarrot-assignment-tama.onrender.com
 DATABASE_SSLMODE=require
 CORS_ALLOWED_ORIGINS=https://whitecarrot-assignment-three.vercel.app
@@ -91,7 +95,9 @@ PYTHON_VERSION=3.11.9
 
 **Copy these exactly as shown above** - all values are already set correctly for your deployment.
 
-**Note**: `PYTHON_VERSION=3.11.9` ensures Render uses Python 3.11.9 instead of default 3.13.
+**Important Notes:**
+- `DATABASE_URL` uses **Session Pooler** (IPv4-compatible) - required for Render
+- `PYTHON_VERSION=3.11.9` ensures Render uses Python 3.11.9 instead of default 3.13
 
 ### Step 5: Deploy
 
@@ -201,34 +207,21 @@ The CORS and API URLs are already set correctly in the environment variables abo
 - **Note**: `runtime.txt` alone may not work - you MUST add `PYTHON_VERSION=3.11.9` as environment variable
 
 **Problem: Database connection "Network is unreachable"**
+- **Root Cause**: Render is IPv4-only, but Supabase Direct Connection uses IPv6
 - **Status**: ✅ Python 3.11 is now working (good!)
-- **Issue**: Render's network cannot reach Supabase's direct database connection
-- **Solution**: Use Supabase Connection Pooling (REQUIRED for Render)
+- **Solution**: Use Supabase Session Pooler (IPv4-compatible) - REQUIRED for Render
 
-**Steps to Fix:**
+**The Fix (Already Done):**
+- Use Session Pooler connection string in `DATABASE_URL`:
+  ```
+  postgresql://postgres.acycjxupzymbgwabxsad:dhanushBurra!123@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
+  ```
 
-1. **Get Connection Pooling URL from Supabase:**
-   - Go to Supabase Dashboard → Settings → Database
-   - Scroll to "Connection Pooling" section
-   - Find "Connection string" under "Session mode"
-   - Copy the connection string (it will look different from direct connection)
-
-2. **Update DATABASE_URL in Render:**
-   - Go to Render Dashboard → Your Service → **Environment** tab
-   - Find `DATABASE_URL` variable
-   - Replace it with the Connection Pooling URL from Supabase
-   - Format example: `postgresql://postgres.xxx:[PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres`
-   - Keep `DATABASE_SSLMODE=require` (still needed)
-
-3. **Save and Redeploy:**
-   - Click "Save Changes"
-   - Render will automatically redeploy
-   - Check logs - migrations should now succeed
-
-**Why Connection Pooling?**
-- Direct Supabase connections (port 5432) are often blocked by cloud providers
-- Connection Pooling (port 6543) is designed for serverless/cloud deployments
-- Render specifically works better with connection pooling URLs
+**Why Session Pooler?**
+- Render is IPv4-only (cannot connect to IPv6 addresses)
+- Supabase Direct Connection uses IPv6 (incompatible with Render)
+- Session Pooler supports IPv4 (works with Render)
+- Supabase specifically lists Render as an IPv4-only platform that needs Session Pooler
 
 **Problem: 500 errors on login/register**
 - **Cause**: Database connection failing or migrations didn't run
