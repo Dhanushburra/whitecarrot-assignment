@@ -255,10 +255,14 @@ The CORS and API URLs are already set correctly in the environment variables abo
 ```
 SECRET_KEY=PzVLXDlG_dyDmAv1Lwp36um589ZF23AA3d4475Qxuh-f17VV2l8DX7gCfqv81kaOu6k
 DEBUG=False
-DATABASE_URL=postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres.acycjxupzymbgwabxsad:dhanushBurra!123@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
 ALLOWED_HOSTS=whitecarrot-assignment-tama.onrender.com
 DATABASE_SSLMODE=require
 CORS_ALLOWED_ORIGINS=https://whitecarrot-assignment-three.vercel.app
+PYTHON_VERSION=3.11.9
+```
+
+**Note**: `DATABASE_URL` uses Session Pooler (IPv4-compatible) - required for Render deployments.
 ```
 
 ### Frontend (Vercel) - Copy This Exactly
