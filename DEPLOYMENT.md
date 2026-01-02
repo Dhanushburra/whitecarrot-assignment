@@ -77,7 +77,7 @@ postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/
 Go to **Environment** tab and add these variables:
 
 ```
-SECRET_KEY=<generate-a-random-secret-key>
+SECRET_KEY=PzVLXDlG_dyDmAv1Lwp36um589ZF23AA3d4475Qxuh-f17VV2l8DX7gCfqv81kaOu6k
 DEBUG=False
 DATABASE_URL=postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
 ALLOWED_HOSTS=your-service-name.onrender.com
@@ -86,7 +86,8 @@ CORS_ALLOWED_ORIGINS=https://your-frontend-url.vercel.app
 ```
 
 **Important Notes:**
-- **SECRET_KEY**: Generate using: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"`
+- **SECRET_KEY**: This is for Django (not the database). Use the key above, or generate a new one using: `python3 -c "import secrets; print(secrets.token_urlsafe(50))"`
+- **DATABASE_URL**: Contains the database password `dhanushBurra!123` - this is your database password
 - **ALLOWED_HOSTS**: Replace with your actual Render service URL (e.g., `careers-builder-api.onrender.com`)
 - **CORS_ALLOWED_ORIGINS**: You'll update this after deploying frontend (for now, use a placeholder)
 
@@ -226,13 +227,17 @@ VITE_API_URL=https://your-backend-url.onrender.com/api
 ### Backend (Render)
 
 ```
-SECRET_KEY=<random-generated-key>
+SECRET_KEY=PzVLXDlG_dyDmAv1Lwp36um589ZF23AA3d4475Qxuh-f17VV2l8DX7gCfqv81kaOu6k
 DEBUG=False
 DATABASE_URL=postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
 ALLOWED_HOSTS=your-service-name.onrender.com
 DATABASE_SSLMODE=require
 CORS_ALLOWED_ORIGINS=https://your-frontend-url.vercel.app
 ```
+
+**Note**: 
+- `SECRET_KEY` is for Django (use the key above)
+- Database password is `dhanushBurra!123` (already in DATABASE_URL)
 
 ### Frontend (Vercel)
 
