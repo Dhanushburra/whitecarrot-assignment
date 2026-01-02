@@ -22,7 +22,12 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY', default='django-insecure-change-this-in-production')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG', default=True)
+DEBUG = env('DEBUG', default=False)
+
+# Show detailed error pages in production for debugging (set to False after fixing issues)
+if DEBUG:
+    import logging
+    logging.basicConfig(level=logging.DEBUG)
 
 # Allow all hosts in production (will be restricted by environment variable)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])

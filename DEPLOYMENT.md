@@ -224,9 +224,15 @@ The CORS and API URLs are already set correctly in the environment variables abo
   - Python 3.13 + psycopg2-binary = connection failures. Python 3.11.9 fixes this.
 
 **Problem: 500 errors on login/register**
-- **Check**: Render logs for migration output
-- **Fix**: If migrations didn't run, check `start.sh` is executing
-- **Note**: App will start even if migrations fail initially (will retry)
+- **Cause**: Database connection failing or migrations didn't run
+- **Check 1**: Visit `https://whitecarrot-assignment-tama.onrender.com/api/` - check the `database` field in JSON response
+  - If it says "error: ..." - database connection is failing
+  - If it says "connected" - database is working, but migrations might not have run
+- **Check 2**: Render logs - look for the full Python traceback when you try to login
+  - The traceback will show the exact error (usually "relation does not exist" or "connection failed")
+- **Fix**: 
+  - If database shows "error" - fix database connection (Python version, connection pooling, etc.)
+  - If database shows "connected" but still 500 - migrations didn't run, check startup logs for migration errors
 
 **Problem: CORS errors**
 - **Fix**: Verify `CORS_ALLOWED_ORIGINS` in Render is set to: `https://whitecarrot-assignment-three.vercel.app`
