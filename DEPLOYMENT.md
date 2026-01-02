@@ -61,6 +61,8 @@ postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/
      ```bash
      bash start.sh
      ```
+   
+   ⚠️ **IMPORTANT**: After creating the service, you MUST add `PYTHON_VERSION=3.11.9` to environment variables (see Step 4). Render defaults to Python 3.13 which causes compatibility issues.
 
 ### Step 3: Python Version
 
@@ -189,23 +191,30 @@ The CORS and API URLs are already set correctly in the environment variables abo
 ### Backend Issues
 
 **Problem: Using Python 3.13 instead of 3.11.9**
-- **Check**: Build logs should show "Installing Python version 3.11.9"
-- **Fix**: Ensure `runtime.txt` exists in `backend/` folder with `python-3.11.9`
-- **If still using 3.13**: Go to Render Settings → Environment → Add `PYTHON_VERSION=3.11.9`
+- **Check**: Build logs should show "Installing Python version 3.11.9" (NOT 3.13)
+- **Fix**: 
+  1. Go to Render Dashboard → Your Service → **Environment** tab
+  2. Add: `PYTHON_VERSION=3.11.9`
+  3. Save and redeploy
+- **Note**: `runtime.txt` alone may not work - you MUST add `PYTHON_VERSION=3.11.9` as environment variable
 
 **Problem: Database connection "Network is unreachable"**
 - **Cause**: Supabase might be blocking connections or network issue
-- **Fix 1**: Check Supabase Dashboard → Settings → Database → Connection Pooling
-  - Try using the **Connection Pooling** URL instead of direct connection
-  - Format: `postgresql://postgres.xxx:[PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres`
-- **Fix 2**: Check if Supabase requires IP whitelisting
+- **Fix 1**: Use Supabase Connection Pooling (RECOMMENDED for Render)
+  1. Go to Supabase Dashboard → Settings → Database
+  2. Scroll to "Connection Pooling" section
+  3. Copy the **Session mode** connection string
+  4. Replace `DATABASE_URL` in Render with the pooling URL
+  5. Format looks like: `postgresql://postgres.xxx:[PASSWORD]@aws-0-[region].pooler.supabase.com:6543/postgres`
+- **Fix 2**: Check Supabase IP restrictions
   - Go to Supabase Dashboard → Settings → Database
-  - Check if there are IP restrictions
-  - Render's IPs are dynamic, so you may need to allow all IPs temporarily
-- **Fix 3**: Verify DATABASE_URL format is correct:
+  - Check "Network Restrictions" - if enabled, temporarily disable or add Render IPs
+  - Render's IPs are dynamic, so allowing all IPs temporarily may be needed
+- **Fix 3**: Verify DATABASE_URL is exactly:
   ```
   postgresql://postgres:dhanushBurra!123@db.acycjxupzymbgwabxsad.supabase.co:5432/postgres
   ```
+- **Note**: The app will start even if migrations fail - you can test API endpoints, but database operations won't work until connection is fixed
 
 **Problem: 500 errors on login/register**
 - **Check**: Render logs for migration output
