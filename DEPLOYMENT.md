@@ -109,7 +109,9 @@ PYTHON_VERSION=3.11.9
    Step 1: Running database migrations...
    ```
 2. If you see migration output, migrations ran successfully
-3. Test the API: Visit `https://your-service-name.onrender.com/api/` (should show API root or JSON)
+3. Test the API: 
+   - Visit `https://whitecarrot-assignment-tama.onrender.com/` (should show JSON with API info)
+   - Visit `https://whitecarrot-assignment-tama.onrender.com/api/` (should show same JSON)
 
 ---
 
