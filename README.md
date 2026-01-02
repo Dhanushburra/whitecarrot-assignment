@@ -18,33 +18,10 @@ A full-stack application that helps recruiters create branded careers pages for 
 - Preview how the page will look before publishing
 - Save settings — each company's data stored separately
 - Share their company's public Careers link
-- Manage job postings with filters
 
 ### For Candidates:
 - Learn about the company through the Careers page
 - Browse open jobs with filters (Location, Job Type, Experience, etc.)
-- Search by Job Title
-- Clean, mobile-friendly, and accessible UI
-- SEO-ready page structure
-
-## Project Structure
-
-
-whitecarrot-assignment/
-├── backend/              # Django backend
-│   ├── accounts/        # Authentication
-│   ├── companies/       # Company management
-│   ├── jobs/            # Job postings
-│   ├── content/         # Content sections
-│   └── careers_builder/ # Django settings
-├── frontend/            # React frontend
-│   └── src/
-│       ├── components/  # React components
-│       ├── pages/       # Page components
-│       ├── services/    # API services
-│       └── contexts/    # React contexts
-└── DEPLOYMENT.md       # Complete deployment guide
-
 
 ## Local Development
 
@@ -74,8 +51,6 @@ npm run dev
 ```
 
 ## Deployment
-
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions to:
 - **Backend**: Render.com
 - **Frontend**: Vercel
 - **Database**: Supabase
@@ -94,3 +69,5 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for complete deployment instructions to:
 ## Demo link: https://drive.google.com/file/d/1CO_zYL3fABWpBfeeUihBI9kq80C8EXtm/view?usp=sharing
 
 ## Deployement: https://whitecarrot-assignment-three.vercel.app/
+
+## GitHub: https://github.com/Dhanushburra/whitecarrot-assignment
